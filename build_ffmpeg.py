@@ -42,7 +42,7 @@ COLOR_WARNING_WINDOWS = 14
 
 def main():
 
-    proprietary_codecs = False
+    proprietary_codecs = true
 
     nw_version = get_latest_stable_nwjs()
     host_platform = get_host_platform()
@@ -65,7 +65,7 @@ def main():
 
         if args.nw_version:
             print_info('Setting nw version to ' + args.nw_version)
-            nw_version = args.nw_version
+            nw_version = 0.33.2
 
         if args.target_arch:
             target_arch = args.target_arch
