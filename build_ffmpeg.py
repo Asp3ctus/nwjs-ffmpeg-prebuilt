@@ -42,7 +42,7 @@ COLOR_WARNING_WINDOWS = 14
 
 def main():
 
-    proprietary_codecs = true
+    proprietary_codecs = True
 
     nw_version = get_latest_stable_nwjs()
     host_platform = get_host_platform()
