@@ -78,7 +78,7 @@ def main():
             print_warning('Script needs to be executed under CygWin to build FFmpeg \nwith proprietary codecs on Windows environments, \nread https://github.com/iteufel/nwjs-ffmpeg-prebuilt/blob/master/guides/build_windows.md\nExiting...')
             sys.exit(1)
 
-        print_info('Building ffmpeg for {0} on {1} for {2}, proprietary_codecs = {3}'.format(nw_version, host_platform, target_cpu, proprietary_codecs))
+        print_info('Building ffmpeg for 0.33.2 on {1} for {2}, proprietary_codecs = {3}'.format(nw_version, host_platform, target_cpu, proprietary_codecs))
 
         create_directory(PATH_BUILD)
 
@@ -207,11 +207,11 @@ def get_latest_stable_nwjs():
 
 
 def create_directory(directory):
-    print 'Creating {0} directory...'.format(directory)
+    print 'Creating 0.33.2 directory...'.format(directory)
     try:
         os.mkdir(directory)
     except OSError:
-        print_warning('{0} directory already exists, skipping...'.format(directory))
+        print_warning('0.33.2 directory already exists, skipping...'.format(directory))
 
 
 def clean_output_directory():
@@ -222,7 +222,7 @@ def clean_output_directory():
 def setup_chromium_depot_tools(nw_version):
     os.chdir(PATH_BUILD)
     if not os.path.isdir(os.path.join(PATH_DEPOT_TOOLS, '.git')):
-        print_info('Cloning Chromium depot tools in {0}...'.format(os.getcwd()))
+        print_info('Cloning Chromium depot tools in 0.33.2...'.format(os.getcwd()))
         os.system('git clone --depth=1 https://chromium.googlesource.com/chromium/tools/depot_tools.git')
 
     sys.path.append(PATH_DEPOT_TOOLS)
@@ -234,20 +234,20 @@ def setup_chromium_depot_tools(nw_version):
         os.environ["GYP_MSVS_VERSION"] = '2017'
 
     print_info('Creating .gclient file...')
-    subprocess.check_call('gclient config --unmanaged --name=src https://github.com/nwjs/chromium.src.git@tags/nw-v{0}'.format(nw_version), shell=True)
+    subprocess.check_call('gclient config --unmanaged --name=src https://github.com/nwjs/chromium.src.git@tags/nw-0.33.2'.format(nw_version), shell=True)
 
 
 def clone_chromium_source_code(nw_version):
     os.chdir(PATH_BUILD)
-    print_info('Cloning Chromium source code for nw-{0} in {1}'.format(nw_version, os.getcwd()))
-    os.system('git clone --depth=1 -b nw-v{0} --single-branch {1} src'.format(
+    print_info('Cloning Chromium source code for nw-0.33.2 in {1}'.format(nw_version, os.getcwd()))
+    os.system('git clone --depth=1 -b nw-v0.33.2 --single-branch {1} src'.format(
         nw_version, 'https://github.com/nwjs/chromium.src.git'))
 
 
 def reset_chromium_src_to_nw_version(nw_version):
     os.chdir(PATH_SRC)
-    print_info('Hard source code reset to nw {0} specified version'.format(nw_version))
-    os.system('git reset --hard tags/nw-v{0}'.format(nw_version))
+    print_info('Hard source code reset to nw 0.33.2 specified version'.format(nw_version))
+    os.system('git reset --hard tags/nw-v0.33.2'.format(nw_version))
 
 
 def get_min_deps(deps_str):
@@ -508,7 +508,7 @@ def check_build_with_proprietary_codecs(proprietary_codecs, host_platform, targe
     if proprietary_codecs:
         print_info('Building ffmpeg with proprietary codecs...')
         if not os.path.isfile('build_ffmpeg_proprietary_codecs.patch'):
-            print_info('Applying codecs patch with ac3 for {0}...'.format(host_platform))
+            print_info('Applying codecs patch with ac3 for 0.33.2...'.format(host_platform))
             # os.path.join
             shutil.copy(os.path.join(PATH_BASE, 'patch', host_platform, 'build_ffmpeg_proprietary_codecs.patch'), os.getcwd())
             # apply codecs patch
@@ -519,7 +519,7 @@ def check_build_with_proprietary_codecs(proprietary_codecs, host_platform, targe
         print_info('Starting build...')
 
         # build ffmpeg
-        subprocess.check_call('./chromium/scripts/build_ffmpeg.py {0} {1}'.format(host_platform, target_arch), shell=True)
+        subprocess.check_call('./chromium/scripts/build_ffmpeg.py 0.33.2 {1}'.format(host_platform, target_arch), shell=True)
         # copy the new generated ffmpeg config
         print_info('Copying new ffmpeg configuration...')
         subprocess.call('./chromium/scripts/copy_config.sh', shell=True)
@@ -563,11 +563,11 @@ def zip_release_output_library(nw_version, platform_release_name, target_arch, p
     if proprietary_codecs:
         pc = '-custom'
     if os.path.isfile(out_library_path):
-        with zipfile.ZipFile(os.path.join(output_release_path, '{0}-{1}-{2}{3}.zip'.format(nw_version, platform_release_name, target_arch, pc)), 'w', zipfile.ZIP_DEFLATED) as release_zip:
+        with zipfile.ZipFile(os.path.join(output_release_path, '0.33.2-{1}-{2}{3}.zip'.format(nw_version, platform_release_name, target_arch, pc)), 'w', zipfile.ZIP_DEFLATED) as release_zip:
             release_zip.write(out_library_path, os.path.basename(out_library_path))
             release_zip.close()
     else:
-        print_warning('There is no release file library in {0}...'.format(out_library_path))
+        print_warning('There is no release file library in 0.33.2...'.format(out_library_path))
 
 
 #following from Python cookbook, #475186
