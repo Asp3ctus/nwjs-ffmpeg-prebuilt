@@ -65,7 +65,7 @@ def main():
 
         if args.nw_version:
             print_info('Setting nw version to ' + args.nw_version)
-            nw_version = 0.33.2
+            nw_version = '0.33.2'
 
         if args.target_arch:
             target_arch = args.target_arch
